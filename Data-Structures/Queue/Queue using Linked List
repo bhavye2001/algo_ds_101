@@ -1,0 +1,99 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    char info ;
+    struct node*next;
+};
+struct node*getnode()
+{
+    struct node *p;
+    p=(struct node*)malloc(sizeof(struct node));
+    return p;
+}
+void InsBeg(struct node**list,char x)
+{
+    struct node*q;
+    q=getnode();
+    q->info=x;
+    q->next=*list;
+    *list=q;
+}
+void InsAft(struct node**p,char x)
+{
+    struct node*q;
+    q=getnode();
+    q->info=x;
+    q->next=(*p)->next;
+    (*p)->next=q;
+}
+char DelBeg(struct node**list)
+{
+    struct node*temp;
+    char x;
+    temp=*list;
+    (*list)=(*list)->next;
+    x=temp->info;
+    free(temp);
+    return x;
+
+}
+EnQueue(struct node**front,struct node**rear,char x)
+{
+    if(*rear==NULL)
+    {
+        InsBeg(&(*rear),x);
+        *front=*rear;
+    }
+    else
+    {
+        InsAft(&(*rear),x);
+        (*rear)=(*rear)->next;
+    }
+}
+char DeQueue(struct node**front,struct node**rear)
+{
+    char x;
+    if(*front==NULL)
+    {
+        printf("void deletion");
+        exit(1);
+    }
+    else
+    {
+        x=DelBeg(&(*front));
+        if((*front)==NULL)
+        {
+            (*rear)=NULL;
+        }
+    }
+    return x;
+}
+
+char traverse(struct node *list)
+{
+    struct node *p;
+    p=list;
+    while(p!=NULL)
+    {
+        printf("%c\t",p->info);
+        p=p->next;
+    }
+}
+
+int main()
+{
+    struct node*front=NULL;
+    struct node*rear=NULL;
+    char e;
+    EnQueue(&front,&rear,'A');
+    EnQueue(&front,&rear,'B');
+    EnQueue(&front,&rear,'C');
+    EnQueue(&front,&rear,'D');
+    traverse(front);
+    printf("\n\n");
+    e=DeQueue(&front,&rear);
+    printf("Deleted element is: %c ",e);
+    printf("\n\n");
+    traverse(front);
+}
